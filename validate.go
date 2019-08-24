@@ -138,16 +138,17 @@ func (v *Errors) Keys() []string {
 func Validate(validators ...Validator) *Errors {
 	errors := NewErrors()
 
-	wg := &sync.WaitGroup{}
-	for i, _ := range validators {
-		wg.Add(1)
-		go func(wg *sync.WaitGroup, i int) {
-			defer wg.Done()
-			validator := validators[i]
-			validator.IsValid(errors)
-		}(wg, i)
+	// wg := &sync.WaitGroup{}
+	for _, validator := range validators {
+		// wg.Add(1)
+		// go func(wg *sync.WaitGroup, i int) {
+		// 	defer wg.Done()
+		// 	validator := validators[i]
+		// 	validator.IsValid(errors)
+		// }(wg, i)
+		validator.IsValid(errors)
 	}
-	wg.Wait()
+	// wg.Wait()
 
 	return errors
 }
